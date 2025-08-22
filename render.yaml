@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: asset-management-backend
+    env: python
+    rootDir: asset_management_backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn asset_management_backend.wsgi:application
+    autoDeploy: true
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        value: "your-secret-key"
+      - key: DATABASE_URL
+        value: "sqlite:///db.sqlite3"
+  - type: web
+    name: asset-management-frontend
+    env: static
+    rootDir: asset-management-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    autoDeploy: true
